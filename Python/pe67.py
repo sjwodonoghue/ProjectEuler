@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 
+import time
 
 
-
+def timing(f):
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+        return ret
+    return wrap
+    
+@timing
 def main(file):
 	f = open(file, 'r')
 	prevLine = [int(f.readline().strip())]
@@ -20,8 +30,8 @@ def main(file):
 			newLine.append(int(lineLst[-1]) + prevLine[-1])
 		prevLine = newLine
 	f.close()
-	return prevLine
+	return max(prevLine)
 
-print main("pe18.txt")
+print main("pe67.txt")
 	
 
